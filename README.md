@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/noopkat/avrgirl-stk500v2.svg?branch=master)](https://travis-ci.org/noopkat/avrgirl-stk500v2) [![Coverage Status](https://coveralls.io/repos/noopkat/avrgirl-stk500v2/badge.svg?branch=master&service=github)](https://coveralls.io/github/noopkat/avrgirl-stk500v2?branch=master) 
+[![Build Status](https://travis-ci.org/noopkat/avrgirl-stk500v2.svg?branch=master)](https://travis-ci.org/noopkat/avrgirl-stk500v2) [![Coverage Status](https://coveralls.io/repos/noopkat/avrgirl-stk500v2/badge.svg?branch=master&service=github)](https://coveralls.io/github/noopkat/avrgirl-stk500v2?branch=master)
 
 # avrgirl-stk500v2
 
@@ -165,12 +165,12 @@ Logs activity information to the console while performing methods.
 ```javascript
 var stk500v2 = require('avrgirl-stk500v2');
 var serialport = require('serialport');
-var SerialPort = serialport.SerialPort;
 
-var sp = new SerialPort('/dev/cu.usbmodem1411', {
+var sp = new serialport('/dev/cu.usbmodem1411', {
   baudrate: 115200,
+  autoOpen: false,
   parser: serialport.parsers.raw
-}, false);
+});
 
 var mega = {
   // all chip properties
@@ -222,7 +222,7 @@ This is a convenient, fast way to write to the flash memory of the microchip.
 
 Underneath, this method is doing the following:
 
-1. Enters programming mode 
+1. Enters programming mode
 2. Calls writeFlash and writes to the flash memory on the chip
 3. Exits programming mode and calls back
 
@@ -244,7 +244,7 @@ This is a convenient, fast way to write to the eeprom memory of the microchip.
 
 Underneath, this method is doing the following:
 
-1. Enters programming mode 
+1. Enters programming mode
 2. Calls writeEeprom and writes to the eeprom memory on the chip
 3. Exits programming mode and calls back
 
@@ -264,7 +264,7 @@ stk.quickEeprom('myEeprom.cpp.hex', function(error) {
 
 ### getChipSignature
 
-Gets the signature of the microchip. 
+Gets the signature of the microchip.
 
 Returns a buffer containing the signature bytes.
 
@@ -378,7 +378,7 @@ stk.writeEeprom('myEeprom.cpp.hex', function(error) {
 
 ### readFlash
 
-Reads a specified length of flash memory from the microchip. Takes a length integer (or hex) for the number of bytes to read, and a callback as the arguments, respectively. 
+Reads a specified length of flash memory from the microchip. Takes a length integer (or hex) for the number of bytes to read, and a callback as the arguments, respectively.
 
 Returns a null error and a buffer of the read bytes upon callback if successful.
 
@@ -392,7 +392,7 @@ stk.readFlash(64, function(error, data) {
 
 ### readEeprom
 
-Reads a specified length of flash memory from the microchip. Takes a length integer (or hex) for the number of bytes to read, and a callback as the arguments, respectively. 
+Reads a specified length of flash memory from the microchip. Takes a length integer (or hex) for the number of bytes to read, and a callback as the arguments, respectively.
 
 Returns a null error and a buffer of the read bytes upon callback if successful.
 
@@ -437,7 +437,7 @@ stk.readFuse('low', function(error, data) {
 💣💣💣 ***OMG, please be careful with this.*** 💣💣💣  
 please please please.
 
-You can brick your chip if you do not know exactly what you're doing. Use an online fuse calculator first, and triple check before running this method. 
+You can brick your chip if you do not know exactly what you're doing. Use an online fuse calculator first, and triple check before running this method.
 
 I accept no responsibility for bricked chips 💀😱😭
 
@@ -446,7 +446,7 @@ Takes a fuse key string, a value to set it to, and a callback.
 Usage:
 
 ```javascript
-// ********* 
+// *********
 // please do not run this code unless you're sure that 0x62 is a good idea for your chip ;___;
 // *********
 stk.writeFuse('low', 0x62, function(error) {
